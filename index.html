@@ -6,16 +6,17 @@
 <title>車城國小｜初任教師因材網闖關</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@700;900&display=swap" rel="stylesheet">
 <style>
 /* ==========================================================
-   自建輕量 CSS（不使用 Tailwind CDN，避免 production 警告）
-   ⚠️ 日後若新增 class，請回到這裡補上對應規則，否則樣式會靜默失效。
+   自建輕量 CSS（不使用 Tailwind CDN）
+   ⚠️ 日後新增 class，請回到這裡補上對應規則。
    ========================================================== */
 :root {
-  --bg: #F6F4EE; --surface: #FFFFFF; --ink: #1E3A3F; --muted: #5B6F73;
-  --line: #D9E2DF; --accent: #1F7A72; --accent-ink: #FFFFFF; --soft: #E3F1EE;
-  --gold: #B9791A; --ok: #2E7D4F; --bad: #B23B3B; --dark: #163034;
+  --bg: #F4F7F5; --surface: #FFFFFF; --ink: #1D3B40; --muted: #5C7175;
+  --line: #D8E3DF; --teal: #1B7F78; --teal-ink: #FFFFFF; --soft: #E2F1EE;
+  --orange: #F26B1D; --yellow: #FFE27A; --red: #D9362B; --ok: #2E7D4F;
+  --bad: #B23B3B; --dark: #163034; --gold: #B9791A;
   --sans: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
   --serif: "Noto Serif TC", "Songti TC", serif;
   --mono: ui-monospace, Menlo, Consolas, monospace;
@@ -27,12 +28,14 @@ body {
   font-size: 16px; line-height: 1.7; min-height: 100vh;
   padding-left: max(16px, env(safe-area-inset-left, 0px));
   padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-bottom: 24px;
 }
 h1, h2, h3 { font-family: var(--serif); margin: 0; line-height: 1.35; text-wrap: balance; }
 p { margin: 0; }
 button, input, select { font: inherit; color: inherit; }
 button { cursor: pointer; }
-:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+a { color: var(--teal); }
+:focus-visible { outline: 3px solid var(--orange); outline-offset: 2px; }
 .hidden { display: none !important; }
 
 /* 版頭 */
@@ -40,79 +43,99 @@ button { cursor: pointer; }
 .topbar .title { font-family: var(--serif); font-size: 17px; font-weight: 700; min-width: 0; }
 .version-badge { background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.35); color: #fff; border-radius: 999px; padding: 4px 12px; font-size: 13px; }
 .version-badge:hover { background: rgba(255,255,255,.3); }
-.env-banner { background: var(--soft); color: var(--ink); border-radius: 8px; padding: 8px 12px; font-size: 13px; margin-top: 14px; }
-
-/* 錯誤橫幅（固定頂部，不用 alert） */
+.env-banner { background: var(--soft); color: var(--ink); border-radius: 8px; padding: 8px 12px; font-size: 13px; margin-top: 12px; }
 .error-bar { position: sticky; top: 0; z-index: 20; background: var(--bad); color: #fff; padding: 10px 14px; border-radius: 10px; font-size: 14px; margin-top: 12px; }
 
-.hero { padding: 28px 0 8px; }
-.kicker { color: var(--accent); font-weight: 700; font-size: 13px; letter-spacing: .08em; }
-.hero h1 { font-size: clamp(24px, 6vw, 34px); margin-top: 6px; }
-.lead { color: var(--muted); margin-top: 10px; }
+/* 首頁 */
+.hero { display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: center; padding: 22px 0 4px; }
+.kicker { display: inline-block; background: var(--yellow); color: var(--dark); font-weight: 900; border-radius: 999px; padding: 4px 16px; font-size: 15px; }
+.hero h1 { font-size: clamp(26px, 6.5vw, 40px); margin-top: 10px; font-weight: 900; color: var(--teal); }
+.hero h1 em { font-style: normal; color: var(--red); }
+.chain { display: inline-block; margin-top: 12px; background: var(--yellow); border-radius: 999px; padding: 6px 16px; font-size: 15px; font-weight: 700; }
+.mascot { width: clamp(96px, 26vw, 150px); height: auto; }
 
-.card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px; margin-top: 16px; min-width: 0; }
-.card h2 { font-size: 20px; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px; margin-top: 16px; min-width: 0; }
+.card h2 { font-size: 20px; color: var(--teal); }
 .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
 .grow { flex: 1 1 200px; min-width: 0; }
-.field { display: grid; gap: 6px; margin-top: 12px; }
+.field { display: grid; gap: 6px; margin-top: 12px; min-width: 0; }
 .field label { font-size: 14px; font-weight: 700; }
-.field input, .field select { padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); width: 100%; min-width: 0; }
-
-.btn { background: var(--accent); color: var(--accent-ink); border: 0; border-radius: 999px; padding: 9px 18px; font-weight: 700; font-size: 14px; }
+.field input, .field select { padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); width: 100%; min-width: 0; min-height: 44px; }
+.btn { background: var(--teal); color: var(--teal-ink); border: 0; border-radius: 999px; padding: 9px 18px; font-weight: 700; font-size: 15px; min-height: 44px; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
 .btn:disabled { opacity: .5; cursor: default; }
-.btn.ghost { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
-.btn.small { padding: 5px 12px; font-size: 13px; }
-.btn.tab { background: var(--bg); color: var(--ink); border: 1px solid var(--line); padding: 6px 14px; }
-.btn.tab.on { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
-.minbtn { min-height: 44px; }
-
+.btn.ghost { background: transparent; color: var(--teal); border: 1px solid var(--teal); }
+.btn.small { padding: 6px 14px; font-size: 14px; min-height: 40px; }
+.btn.tab { background: var(--bg); color: var(--ink); border: 1px solid var(--line); padding: 6px 14px; min-height: 40px; }
+.btn.tab.on { background: var(--teal); color: var(--teal-ink); border-color: var(--teal); }
 .code { font-family: var(--mono); font-size: 20px; letter-spacing: .05em; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 6px 12px; user-select: all; overflow-wrap: anywhere; }
+.muted { color: var(--muted); font-size: 14px; }
 
 /* 進度 */
-.progress { margin-top: 16px; }
 .ptop { display: flex; justify-content: space-between; gap: 12px; font-size: 14px; flex-wrap: wrap; }
-.track { height: 10px; background: var(--soft); border-radius: 999px; overflow: hidden; margin-top: 8px; }
-.fill { height: 100%; background: var(--accent); width: 0; border-radius: 999px; transition: width .4s ease; }
-.xp { color: var(--gold); font-weight: 700; }
+.track { height: 12px; background: var(--soft); border-radius: 999px; overflow: hidden; margin-top: 8px; }
+.fill { height: 100%; background: var(--orange); width: 0; border-radius: 999px; transition: width .4s ease; }
+.xp { color: var(--gold); font-weight: 900; }
 
-/* 關卡 */
-.stage { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; margin-top: 14px; min-width: 0; }
-.stage > summary { list-style: none; display: flex; align-items: center; gap: 12px; padding: 14px 16px; cursor: pointer; min-height: 44px; }
+/* 學習步驟（對應圖解：編號圓圈、標籤、黃色橫幅） */
+.stage { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; margin-top: 18px; min-width: 0; overflow: hidden; }
+.stage > summary { list-style: none; display: flex; align-items: center; gap: 12px; padding: 16px 18px; cursor: pointer; min-height: 56px; flex-wrap: wrap; }
 .stage > summary::-webkit-details-marker { display: none; }
-.badge { flex: none; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; border: 2px solid var(--accent); color: var(--accent); font-family: var(--serif); font-weight: 700; }
-.stage.cleared .badge { background: var(--accent); color: var(--accent-ink); }
-.stitle { flex: 1; min-width: 0; font-family: var(--serif); font-weight: 700; font-size: 17px; }
-.sstate { flex: none; font-size: 13px; color: var(--muted); }
-.stage.cleared .sstate { color: var(--ok); font-weight: 700; }
-.sbody { padding: 0 16px 18px; border-top: 1px solid var(--line); }
-.goal { color: var(--muted); margin-top: 14px; }
-.sbody h3 { font-size: 16px; color: var(--accent); margin-top: 16px; }
-ol.steps { margin: 8px 0 0; padding-left: 1.4em; }
-ol.steps li { margin-bottom: 6px; padding-left: 4px; }
-.notice { margin-top: 12px; font-size: 14px; color: var(--gold); font-weight: 700; }
+.pill { background: var(--teal); color: #fff; border-radius: 999px; padding: 4px 14px; font-size: 14px; font-weight: 900; white-space: nowrap; }
+.stitle { flex: 1; min-width: 0; font-family: var(--serif); font-weight: 900; font-size: 20px; color: var(--teal); }
+.sstate { flex: none; font-size: 14px; color: var(--muted); }
+.stage.cleared .sstate { color: var(--ok); font-weight: 900; }
+.sbody { padding: 0 18px 20px; border-top: 1px solid var(--line); }
+.chip { display: inline-block; margin-top: 16px; background: var(--yellow); border-radius: 999px; padding: 6px 16px; font-weight: 700; font-size: 15px; }
+.guide { display: block; width: 100%; height: auto; max-width: 100%; border-radius: 14px; border: 1px solid var(--line); margin-top: 14px; background: var(--surface); }
+.two { display: grid; grid-template-columns: 1fr; gap: 18px; margin-top: 16px; min-width: 0; }
+@media (min-width: 760px) { .two { grid-template-columns: 1.05fr 1fr; } }
+.two > * { min-width: 0; }
 
-.q { border: 1px solid var(--line); border-radius: 10px; padding: 12px; margin-top: 12px; min-width: 0; }
-.qt { font-weight: 700; }
-.opts { display: grid; gap: 8px; margin-top: 8px; }
-.opt { text-align: left; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; min-height: 44px; overflow-wrap: anywhere; }
-.opt:hover:not(:disabled) { border-color: var(--accent); }
-.opt.right { border-color: var(--ok); background: var(--soft); font-weight: 700; }
-.opt.wrong { border-color: var(--bad); color: var(--bad); }
-.opt:disabled { cursor: default; }
-.fb { font-size: 14px; margin-top: 8px; min-height: 1.4em; color: var(--muted); }
-.fb.ok { color: var(--ok); font-weight: 700; }
-.fb.no { color: var(--bad); }
-.locked .opt { opacity: .5; pointer-events: none; }
+.steplist { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.steplist li { min-width: 0; }
+.check { width: 100%; display: flex; align-items: center; gap: 12px; text-align: left; background: var(--bg); border: 2px solid var(--line); border-radius: 12px; padding: 10px 12px; min-height: 52px; }
+.check:hover:not(:disabled) { border-color: var(--teal); }
+.check:disabled { cursor: default; opacity: .55; }
+.check .num { flex: none; width: 34px; height: 34px; border-radius: 50%; background: var(--orange); color: #fff; font-weight: 900; display: grid; place-items: center; font-size: 17px; }
+.check .txt { flex: 1; min-width: 0; font-weight: 700; overflow-wrap: anywhere; }
+.check .tick { flex: none; width: 30px; height: 30px; border-radius: 8px; border: 2px solid var(--line); display: grid; place-items: center; color: transparent; font-weight: 900; font-size: 18px; background: var(--surface); }
+.check.on { border-color: var(--ok); background: #EEF8F1; }
+.check.on .tick { background: var(--ok); border-color: var(--ok); color: #fff; }
+.check.on .txt { color: var(--ok); }
+.itemlink { display: inline-block; margin: 6px 0 0 46px; font-size: 14px; font-weight: 700; }
+.locked .steplist, .locked .fillbox { opacity: .5; pointer-events: none; }
 
-/* 通關 */
-.finish { border-color: var(--gold); }
-.finish h2 { color: var(--gold); }
+.fillbox { margin-top: 14px; background: var(--soft); border-radius: 12px; padding: 14px; min-width: 0; }
+.fillbox label { font-weight: 900; }
+.fillbox .row { margin-top: 8px; }
+.fillbox input { flex: 1 1 200px; min-width: 0; padding: 10px 12px; border: 2px solid var(--teal); border-radius: 10px; background: var(--surface); font-family: var(--mono); font-size: 18px; min-height: 46px; }
+
+.tip { margin-top: 14px; background: var(--yellow); border-radius: 12px; padding: 12px 14px; font-weight: 700; font-size: 15px; }
+.videobtn { margin-top: 12px; }
+
+/* 圖解截圖 */
+.gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; min-width: 0; }
+.gallery figure { margin: 0; background: var(--bg); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; min-width: 0; }
+.gallery img { display: block; width: 100%; height: auto; max-width: 100%; }
+.gallery figcaption { font-size: 14px; font-weight: 900; padding: 6px 10px; background: var(--surface); border-top: 1px solid var(--line); }
+.gallery figure.missing { display: none; }
+.gallery figure:first-child { grid-column: 1 / -1; }
+
+/* 橫幅 */
+.banner { margin-top: 18px; border-radius: 12px; padding: 12px 16px; background: var(--bg); border: 2px dashed var(--line); font-weight: 900; font-size: 16px; text-align: center; }
+.banner.ok { background: var(--yellow); border: 2px solid var(--yellow); color: var(--dark); }
+.banner.lock { color: var(--gold); }
+.banner.done { background: var(--teal); border-color: var(--teal); color: #fff; }
+
+/* 完成卡 */
+.finish { border: 2px solid var(--yellow); background: #FFFBE8; }
+.finish h2 { color: var(--orange); }
 
 /* 教師主控台 */
 .console { margin-top: 28px; }
 .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 12px; }
 .stat { background: var(--soft); border-radius: 10px; padding: 12px; text-align: center; min-width: 0; }
-.stat .n { font-family: var(--serif); font-size: 24px; font-weight: 700; color: var(--accent); }
+.stat .n { font-family: var(--serif); font-size: 24px; font-weight: 900; color: var(--teal); }
 .stat .l { font-size: 13px; color: var(--muted); }
 .tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
 .table-wrap { overflow-x: auto; margin-top: 12px; border: 1px solid var(--line); border-radius: 10px; }
@@ -120,67 +143,87 @@ table { width: 100%; border-collapse: collapse; font-size: 14px; }
 th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--line); white-space: nowrap; }
 th { background: var(--bg); font-weight: 700; }
 .mini-bar { height: 8px; background: var(--soft); border-radius: 999px; overflow: hidden; width: 120px; }
-.mini-bar > span { display: block; height: 100%; background: var(--accent); }
+.mini-bar > span { display: block; height: 100%; background: var(--orange); }
 .list { display: grid; gap: 10px; margin-top: 12px; }
 .item { border: 1px solid var(--line); border-radius: 10px; padding: 12px; min-width: 0; }
 .item .head { display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; font-weight: 700; }
 .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 12px; }
 .gcard { border: 1px solid var(--line); border-radius: 10px; padding: 12px; min-width: 0; background: var(--surface); }
-.gcard .nm { font-family: var(--serif); font-weight: 700; font-size: 17px; overflow-wrap: anywhere; }
+.gcard .nm { font-family: var(--serif); font-weight: 900; font-size: 17px; overflow-wrap: anywhere; }
 .gcard .sub { font-size: 13px; color: var(--muted); }
 .dots { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
-.dot { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; font-size: 13px; border: 1px solid var(--line); color: var(--muted); }
-.dot.on { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.dot { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; font-size: 13px; border: 1px solid var(--line); color: var(--muted); }
+.dot.on { background: var(--teal); color: #fff; border-color: var(--teal); }
 .empty { color: var(--muted); text-align: center; padding: 24px 0; }
 
 /* 彈出視窗 */
 .modal { position: fixed; inset: 0; background: rgba(0,0,0,.45); display: flex; align-items: center; justify-content: center; padding: 16px; z-index: 30; }
 .modal-box { background: var(--surface); border-radius: 14px; padding: 20px; width: 100%; max-width: 520px; max-height: 86vh; overflow: auto; min-width: 0; }
 .modal-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
-.x { background: none; border: 0; font-size: 22px; min-width: 44px; min-height: 44px; }
+.x { background: none; border: 0; font-size: 24px; min-width: 44px; min-height: 44px; }
 
 /* 浮動通知 */
 .toast { position: fixed; left: 50%; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); transform: translate(-50%, 20px); background: var(--dark); color: #fff; padding: 10px 18px; border-radius: 999px; font-size: 14px; opacity: 0; transition: opacity .25s, transform .25s; pointer-events: none; z-index: 40; max-width: calc(100% - 32px); }
 .toast.show { opacity: 1; transform: translate(-50%, 0); }
 .toast.error { background: var(--bad); }
 
-.spinner { width: 22px; height: 22px; border: 3px solid var(--line); border-top-color: var(--accent); border-radius: 50%; animation: spin .8s linear infinite; display: inline-block; vertical-align: middle; margin-right: 8px; }
+.spinner { width: 20px; height: 20px; border: 3px solid var(--line); border-top-color: var(--teal); border-radius: 50%; animation: spin .8s linear infinite; display: inline-block; vertical-align: middle; margin-right: 8px; }
 @keyframes spin { to { transform: rotate(360deg); } }
-
 footer { text-align: center; color: var(--muted); font-size: 13px; margin: 36px 0 20px; }
 
-/* 響應式 */
 @media (max-width: 720px) {
   .grid { grid-template-columns: repeat(2, 1fr); }
   .stats { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 480px) {
   .grid { grid-template-columns: 1fr; }
-  .stitle { font-size: 16px; }
+  .stitle { font-size: 18px; }
   .code { font-size: 17px; }
+  .hero { grid-template-columns: 1fr; }
+  .mascot { justify-self: center; }
 }
 @media (prefers-reduced-motion: reduce) { .fill, .toast { transition: none; } .spinner { animation: none; } }
 </style>
 </head>
 <body>
 
+<!-- 洋蔥寶寶：若 img/onion.png 存在就顯示該圖，否則使用下方內建的 SVG -->
+<template id="onion-svg">
+  <svg class="mascot" viewBox="0 0 120 150" role="img" aria-label="洋蔥寶寶">
+    <path d="M60 36 C50 16 38 8 22 6 C36 24 46 34 60 36Z" fill="#6CC04A"/>
+    <path d="M60 36 C64 14 76 4 98 2 C84 22 74 34 60 36Z" fill="#4FA83D"/>
+    <path d="M60 36 C57 12 60 4 66 0 C70 18 66 30 60 36Z" fill="#8BD26B"/>
+    <path d="M60 34 C90 34 106 60 106 96 C106 124 86 144 60 144 C34 144 14 124 14 96 C14 60 30 34 60 34Z" fill="#FFF8E7" stroke="#E6D2A6" stroke-width="3"/>
+    <ellipse cx="36" cy="100" rx="7" ry="5" fill="#FFB3B3" opacity=".7"/>
+    <ellipse cx="84" cy="100" rx="7" ry="5" fill="#FFB3B3" opacity=".7"/>
+    <circle cx="46" cy="84" r="8" fill="#fff" stroke="#3A2A1A" stroke-width="2.5"/>
+    <circle cx="74" cy="84" r="8" fill="#fff" stroke="#3A2A1A" stroke-width="2.5"/>
+    <circle cx="48" cy="86" r="3.5" fill="#3A2A1A"/>
+    <circle cx="76" cy="86" r="3.5" fill="#3A2A1A"/>
+    <path d="M50 108 Q60 118 70 108" fill="none" stroke="#7A4A2A" stroke-width="3" stroke-linecap="round"/>
+  </svg>
+</template>
+
 <header class="topbar">
   <div class="title">車城國小｜初任教師因材網闖關</div>
-  <button class="version-badge" id="versionBadge" type="button">v1.3</button>
+  <button class="version-badge" id="versionBadge" type="button">v1.5</button>
 </header>
 
-<div class="env-banner" id="envBanner">✅ 目前運行於 GitHub Pages 正式環境（v1.3）</div>
+<div class="env-banner" id="envBanner">✅ 目前運行於 GitHub Pages 正式環境（v1.5）</div>
 <div class="error-bar hidden" id="errorBar" role="alert"></div>
 
 <section class="hero">
-  <div class="kicker">因材網 × 初任教師</div>
-  <h1>四關闖完因材網，做出你的第一個課程包</h1>
-  <p class="lead">依序完成四關，每關三題闖關題，全部答對即通關。進度會記在伺服器上，換裝置登入同一個學校與姓名即可接續。</p>
+  <div>
+    <span class="kicker">研習課程｜學習步驟</span>
+    <h1>先登入，再照圖示<em>一步一步</em>完成</h1>
+    <span class="chip">洋蔥寶寶陪你完成：登入因材網 → 建立課程包 → 指派任務 → 看數據 → 分享號碼</span>
+  </div>
+  <div id="mascotSlot"></div>
 </section>
 
 <!-- 學員登入 -->
 <section class="card" id="loginCard">
-  <h2>先登入，開始闖關</h2>
+  <h2>登入</h2>
   <form id="loginForm" novalidate>
     <div class="row">
       <div class="field grow">
@@ -197,8 +240,8 @@ footer { text-align: center; color: var(--muted); font-size: 13px; margin: 36px 
       </div>
     </div>
     <div class="row" style="margin-top:14px">
-      <button class="btn minbtn" id="loginBtn" type="submit">登入</button>
-      <span class="sstate" id="loginHint">同一姓名與學校會接續之前的進度。</span>
+      <button class="btn" id="loginBtn" type="submit">登入</button>
+      <span class="muted">同一姓名與學校會接續之前的進度。</span>
     </div>
   </form>
 </section>
@@ -207,7 +250,7 @@ footer { text-align: center; color: var(--muted); font-size: 13px; margin: 36px 
 <section class="card hidden" id="progressCard">
   <div class="row">
     <div class="grow">
-      <div class="ptop"><strong id="whoLine">—</strong><span id="pText">0 / 4 關</span></div>
+      <div class="ptop"><strong id="whoLine">—</strong><span id="pText">0 / 5 關</span></div>
       <div class="track"><div class="fill" id="pFill"></div></div>
     </div>
     <div class="xp" id="xpText">XP 0</div>
@@ -216,31 +259,25 @@ footer { text-align: center; color: var(--muted); font-size: 13px; margin: 36px 
 </section>
 
 <main>
-  <div id="stages"><div class="card"><span class="spinner"></span>載入關卡中…</div></div>
+  <div id="stages"><div class="card"><span class="spinner"></span>載入步驟中…</div></div>
 
   <section class="card finish hidden" id="finishCard">
-    <h2>恭喜通關</h2>
-    <p style="margin-top:8px">你已完成建立課程包、新增資源、指派任務與看數據的流程。接下來可以把課程號碼分享給講師或同儕。</p>
-    <div style="margin-top:14px">
-      <div class="field">
-        <label for="myCode">你的課程號碼（10 碼數字；若有英文字請在因材網點選「重新產生新號碼」）</label>
-        <input id="myCode" inputmode="text" maxlength="20" placeholder="例如：1300703648">
-      </div>
-      <div class="row" style="margin-top:10px">
-        <button class="btn ghost minbtn" id="copyMine" type="button">複製分享文字</button>
-      </div>
-      <p class="sstate" id="shareText" style="margin-top:8px;word-break:break-all"></p>
+    <h2>準備完成！</h2>
+    <p style="margin-top:8px">你已完成建立課程包、新增資源、指派任務、看數據與分享號碼的流程。保留這組課程號碼，就可以接著下一階段。</p>
+    <p class="muted" id="shareText" style="margin-top:10px;word-break:break-all"></p>
+    <div class="row" style="margin-top:10px">
+      <button class="btn ghost small" id="copyMine" type="button">複製分享文字</button>
     </div>
   </section>
 
   <section class="card">
     <h2>示範課程包</h2>
-    <p class="lead" style="margin-top:6px">B1科技化自主學習-臨水發電課程包</p>
+    <p class="muted" style="margin-top:6px">B1科技化自主學習-臨水發電課程包</p>
     <div class="row" style="margin-top:12px">
       <span class="code" id="demoCode">1300703648</span>
       <button class="btn small" id="copyDemo" type="button">複製號碼</button>
     </div>
-    <p class="sstate" style="margin-top:10px">這是示範號碼，可參考章節與資源的安排方式。請依講師指示使用，不要任意修改或刪除內容。</p>
+    <p class="muted" style="margin-top:10px">示範號碼可參考章節與資源的安排方式，請依講師指示使用，不要任意修改或刪除內容。</p>
   </section>
 
   <!-- 教師主控台（網址加上 ?teacher=1 才顯示） -->
@@ -251,12 +288,12 @@ footer { text-align: center; color: var(--muted); font-size: 13px; margin: 36px 
         <label for="teacherPass">教師密碼</label>
         <input id="teacherPass" type="password" autocomplete="off">
       </div>
-      <button class="btn minbtn" id="teacherLoad" type="button">載入學員</button>
+      <button class="btn" id="teacherLoad" type="button">載入學員</button>
     </div>
     <div id="consoleBody" class="hidden">
       <div class="stats">
         <div class="stat"><div class="n" id="stTotal">0</div><div class="l">學員人數</div></div>
-        <div class="stat"><div class="n" id="stDone">0</div><div class="l">已通關</div></div>
+        <div class="stat"><div class="n" id="stDone">0</div><div class="l">已完成</div></div>
         <div class="stat"><div class="n" id="stDoing">0</div><div class="l">進行中</div></div>
         <div class="stat"><div class="n" id="stAvg">0</div><div class="l">平均 XP</div></div>
       </div>
@@ -280,7 +317,7 @@ footer { text-align: center; color: var(--muted); font-size: 13px; margin: 36px 
   <div style="margin-top:4px">車城國小資訊老師徐吉德整理製作@2026</div>
 </footer>
 
-<!-- 版本紀錄 Modal -->
+<!-- 版本紀錄 -->
 <div class="modal hidden" id="changelogModal" role="dialog" aria-modal="true" aria-labelledby="clTitle">
   <div class="modal-box">
     <div class="modal-head"><h2 id="clTitle" style="font-size:20px">更新紀錄</h2><button class="x" type="button" data-close>×</button></div>
@@ -288,7 +325,7 @@ footer { text-align: center; color: var(--muted); font-size: 13px; margin: 36px 
   </div>
 </div>
 
-<!-- 學員詳情 Modal -->
+<!-- 學員詳情 -->
 <div class="modal hidden" id="detailModal" role="dialog" aria-modal="true" aria-labelledby="dtTitle">
   <div class="modal-box">
     <div class="modal-head"><h2 id="dtTitle" style="font-size:20px">學員詳情</h2><button class="x" type="button" data-close>×</button></div>
@@ -303,24 +340,27 @@ footer { text-align: center; color: var(--muted); font-size: 13px; margin: 36px 
   "use strict";
 
   /* ===== 設定 ===== */
-  // 部署 GAS 後把新的 Web App URL 貼在這裡（每次重新部署都要更新）
+  // 部署 GAS 後，若網址有變更，請更新這裡（每次重新部署都要檢查）
   const DEFAULT_GAS_URL = 'https://script.google.com/macros/s/AKfycbyMNBAdEQ6BWUHWj4C9pGV2mDmPz3F6Ge-w8mzV_7Wzwk1XjEhu4uVny5rVHJC7Ier1/exec';
-  const APP_VERSION = 'v1.3';
+  const APP_VERSION = 'v1.5';
   const SYSTEM_NAME = '車城國小｜初任教師因材網闖關';
   const CHANGELOG = [
+    { version: 'v1.5', date: '2026-10-24', desc: '每關新增懶人圖解版面（圖檔由 docs/img/ 讀取，未上傳時自動隱藏）。' },
+    { version: 'v1.4', date: '2026-10-24', desc: '改為圖解步驟：取消闖關題，改為依步驟勾選；每關加入因材網截圖與懶人重點；第五關改為填寫課程號碼。' },
     { version: 'v1.3', date: '2026-10-24', desc: '登入新增「日期」欄位（預設今天，可修改），教師主控台可依日期篩選並顯示日期。' },
     { version: 'v1.2', date: '2026-10-24', desc: '登入改為「姓名＋學校」；修正版頭與錯誤橫幅造成的橫向捲動；前端已連結正式 GAS 網址。' },
-    { version: 'v1.1', date: '2026-10-24', desc: '依學校命名規則重製：GAS 專案、雲端硬碟資料夾、試算表與網站標題統一為「車城國小｜初任教師因材網闖關」；setupDatabase() 自動建立資料夾並移入試算表。' },
-    { version: 'v1.0', date: '2026-10-24', desc: '初版：四關闖關（建立課程包、新增資源、指派任務、學生執行與看數據），題目與 XP 由後端計算，附教師主控台（表格／清單／圖卡）。' }
+    { version: 'v1.1', date: '2026-10-24', desc: '依學校命名規則重製：GAS 專案、雲端硬碟資料夾、試算表與網站標題統一為「車城國小｜初任教師因材網闖關」。' },
+    { version: 'v1.0', date: '2026-10-24', desc: '初版：四關闖關，附教師主控台（表格／清單／圖卡）。' }
   ];
   const STORE_KEY = 'kp-quest-student';
 
   /* ===== 狀態 ===== */
   let QUEST = [];
-  let me = null;            // 目前學員（後端回傳的完整欄位）
-  let allStudents = [];     // 教師主控台快取
+  let me = null;
+  let allStudents = [];
   let teacherView = 'table';
   let teacherPass = '';
+  let busy = false;
 
   /* ===== 工具 ===== */
   const $ = (id) => document.getElementById(id);
@@ -359,10 +399,14 @@ footer { text-align: center; color: var(--muted); font-size: 13px; margin: 36px 
       navigator.clipboard.writeText(text).then(() => toast(okMsg), fallback);
     } else { fallback(); }
   }
-  function loadingHTML(text) { return '<span class="spinner"></span>' + escapeHtml(text || '處理中…'); }
+  function todayStr() {
+    const d = new Date();
+    const z = (n) => String(n).padStart(2, '0');
+    return d.getFullYear() + '-' + z(d.getMonth() + 1) + '-' + z(d.getDate());
+  }
 
   /* ===== 通訊：智慧路由 ===== */
-  // 讀取（GET）：JSONP，避開 CORS
+  // 讀取（GET）：JSONP
   function callGAS_JSONP(params, callback) {
     const cbName = 'cb_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
     let script = null;
@@ -391,7 +435,11 @@ footer { text-align: center; color: var(--muted); font-size: 13px; margin: 36px 
     script.src = DEFAULT_GAS_URL + '?' + qs;
     document.head.appendChild(script);
   }
-
+  function jsonp(params) {
+    return new Promise((resolve, reject) => {
+      callGAS_JSONP(params, (err, data) => err ? reject(err) : resolve(data));
+    });
+  }
   // 寫入（POST）：text/plain 避開 Preflight
   async function callGAS_POST(data) {
     let res;
@@ -411,29 +459,14 @@ footer { text-align: center; color: var(--muted); font-size: 13px; margin: 36px 
     return json.data;
   }
 
-  function jsonp(params) {
-    return new Promise((resolve, reject) => {
-      callGAS_JSONP(params, (err, data) => err ? reject(err) : resolve(data));
-    });
-  }
-
   /* ===== 初始化 ===== */
-  function todayStr() {
-    const d = new Date();
-    const z = (n) => String(n).padStart(2, '0');
-    return d.getFullYear() + '-' + z(d.getMonth() + 1) + '-' + z(d.getDate());
-  }
-
   async function init() {
     document.title = SYSTEM_NAME;
     $('versionBadge').textContent = APP_VERSION;
-    $('inDate').value = todayStr();
     $('envBanner').textContent = '✅ 目前運行於 GitHub Pages 正式環境（' + APP_VERSION + '）';
+    $('inDate').value = todayStr();
     $('demoCode').textContent = '1300703648';
-
-    if (DEFAULT_GAS_URL.indexOf('PASTE_') === 0) {
-      showError('尚未設定 GAS 網址，請在 index.html 的 DEFAULT_GAS_URL 填入部署後的網址。');
-    }
+    mountMascot();
 
     try {
       QUEST = await jsonp({ action: 'getQuest' });
@@ -442,9 +475,7 @@ footer { text-align: center; color: var(--muted); font-size: 13px; margin: 36px 
       showError(err.message);
       return;
     }
-    renderStages();
 
-    // 記住學員身分（僅此瀏覽器）
     let savedId = '';
     try { savedId = localStorage.getItem(STORE_KEY) || ''; } catch (e) { savedId = ''; }
     if (savedId) {
@@ -461,19 +492,30 @@ footer { text-align: center; color: var(--muted); font-size: 13px; margin: 36px 
     }
   }
 
-  /* ===== 學員登入 ===== */
+  // 洋蔥寶寶：優先使用 img/onion.png，失敗則換成內建 SVG
+  function mountMascot() {
+    const slot = $('mascotSlot');
+    const img = document.createElement('img');
+    img.className = 'mascot';
+    img.alt = '洋蔥寶寶';
+    img.src = 'img/onion.png';
+    img.onerror = () => { slot.innerHTML = ''; slot.appendChild($('onion-svg').content.cloneNode(true)); };
+    slot.appendChild(img);
+  }
+
+  /* ===== 登入 ===== */
   $('loginForm').addEventListener('submit', async (ev) => {
     ev.preventDefault();
     const name = $('inName').value.trim();
-    const cls = $('inSchool').value.trim();
+    const school = $('inSchool').value.trim();
     const day = $('inDate').value;
-    if (!name || !cls) { toast('請輸入姓名與學校', true); return; }
+    if (!name || !school) { toast('請輸入姓名與學校', true); return; }
     if (!day) { toast('請選擇日期', true); return; }
     const btn = $('loginBtn');
-    btn.disabled = true; btn.innerHTML = loadingHTML('登入中');
+    btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>登入中';
     try {
-      me = await callGAS_POST({ action: 'login', name: name, school: cls, loginDate: day });
-      try { localStorage.setItem(STORE_KEY, me.studentId); } catch (e) { /* 無法記住也不影響使用 */ }
+      me = await callGAS_POST({ action: 'login', name: name, school: school, loginDate: day });
+      try { localStorage.setItem(STORE_KEY, me.studentId); } catch (e) { /* 忽略 */ }
       toast('歡迎，' + me.name + '！');
       refreshAll();
     } catch (err) {
@@ -489,7 +531,7 @@ footer { text-align: center; color: var(--muted); font-size: 13px; margin: 36px 
     refreshAll();
   });
 
-  /* ===== 關卡渲染 ===== */
+  /* ===== 步驟渲染 ===== */
   function isStageLocked(i) {
     if (i === 0) return false;
     if (!me) return true;
@@ -497,102 +539,153 @@ footer { text-align: center; color: var(--muted); font-size: 13px; margin: 36px 
   }
 
   function renderStages() {
-    const openIds = new Set(
-      Array.from(document.querySelectorAll('#stages details[open]')).map((d) => d.id)
-    );
+    const openIds = new Set(Array.from(document.querySelectorAll('#stages details[open]')).map((d) => d.id));
+    const firstRender = document.querySelectorAll('#stages details').length === 0;
     const wrap = $('stages');
     wrap.innerHTML = '';
+
     QUEST.forEach((s, i) => {
       const cleared = !!(me && me.cleared.indexOf(s.id) >= 0);
       const locked = isStageLocked(i);
+      const answers = (me && me.answers) || {};
+      const doneItems = s.items.filter((it) => answers[it.id] === true).length;
+      const total = s.items.length + (s.fill ? 1 : 0);
       const det = document.createElement('details');
-      det.className = 'stage' + (cleared ? ' cleared' : '');
+      det.className = 'stage' + (cleared ? ' cleared' : '') + (locked ? ' locked' : '');
       det.id = s.id;
-      det.open = openIds.has(s.id) || (openIds.size === 0 && i === 0 && !cleared);
+      det.open = openIds.has(s.id) || (firstRender && i === 0) || (!firstRender && openIds.size === 0 && i === 0);
 
-      const stepsHTML = s.steps.map((x) => '<li>' + escapeHtml(x) + '</li>').join('');
-      const qsHTML = s.qs.map((q) => {
-        const chosen = me && me.answers ? me.answers[q.id] : undefined;
-        const solved = !!(me && me.solved && me.solved[q.id]);
-        const opts = q.opts.map((o, k) => {
-          let cls = 'opt';
-          if (solved && k === chosen) cls += ' right';
-          else if (!solved && chosen === k) cls += ' wrong';
-          return '<button type="button" class="' + cls + '" data-qid="' + q.id + '" data-k="' + k + '"' +
-            (solved || !me ? ' disabled' : '') + '>' + escapeHtml(o) + '</button>';
-        }).join('');
-        const fb = solved ? '答對了。' : (chosen !== undefined ? '再想想看，點其他選項試試。' : (me ? '請選擇答案。' : '請先登入。'));
-        return '<div class="q" data-q="' + q.id + '">' +
-          '<p class="qt">' + escapeHtml(q.q) + '</p>' +
-          '<div class="opts">' + opts + '</div>' +
-          '<p class="fb ' + (solved ? 'ok' : (chosen !== undefined ? 'no' : '')) + '">' + fb + '</p>' +
-          '</div>';
+      const itemsHTML = s.items.map((it, j) => {
+        const on = answers[it.id] === true;
+        const link = it.link
+          ? '<a class="itemlink" href="' + escapeHtml(it.link.url) + '" target="_blank" rel="noopener">' + escapeHtml(it.link.label) + ' ↗</a>'
+          : '';
+        return '<li>' +
+          '<button type="button" class="check' + (on ? ' on' : '') + '" data-id="' + escapeHtml(it.id) + '" aria-pressed="' + on + '"' +
+          (!me || locked ? ' disabled' : '') + '>' +
+          '<span class="num">' + (j + 1) + '</span>' +
+          '<span class="txt">' + escapeHtml(it.text) + '</span>' +
+          '<span class="tick">✓</span></button>' + link + '</li>';
       }).join('');
 
+      let fillHTML = '';
+      if (s.fill) {
+        const val = answers[s.fill.id] || '';
+        fillHTML = '<div class="fillbox">' +
+          '<label for="f-' + escapeHtml(s.fill.id) + '">' + escapeHtml(s.fill.prompt) + '</label>' +
+          '<div class="row">' +
+          '<input id="f-' + escapeHtml(s.fill.id) + '" value="' + escapeHtml(val) + '" placeholder="' + escapeHtml(s.fill.placeholder) + '" maxlength="' + s.fill.max + '" autocomplete="off"' +
+          (!me || locked ? ' disabled' : '') + '>' +
+          '<button type="button" class="btn small fill-save" data-id="' + escapeHtml(s.fill.id) + '"' +
+          (!me || locked ? ' disabled' : '') + '>儲存</button></div>' +
+          '<p class="muted" style="margin-top:6px">' + (val ? '已儲存：' + escapeHtml(val) : '填入後按「儲存」') + '</p>' +
+          '</div>';
+      }
+
+      const videoHTML = s.video
+        ? '<a class="btn ghost small videobtn" href="' + escapeHtml(s.video.url) + '" target="_blank" rel="noopener">▶ ' + escapeHtml(s.video.label) + '</a>'
+        : '';
+
+      const galleryHTML = (s.images || []).map((img) =>
+        '<figure><img src="' + escapeHtml(img.src) + '" alt="' + escapeHtml(img.caption) + '" loading="lazy">' +
+        '<figcaption>' + escapeHtml(img.caption) + '</figcaption></figure>'
+      ).join('');
+
+      let bannerHTML;
+      if (cleared && i < QUEST.length - 1) {
+        bannerHTML = '<div class="banner ok">✅ 第 ' + (i + 1) + ' 關完成！下一步：第 ' + (i + 2) + ' 關「' + escapeHtml(QUEST[i + 1].title) + '」</div>';
+      } else if (cleared) {
+        bannerHTML = '<div class="banner done">🎉 全部完成，準備好了！</div>';
+      } else if (locked) {
+        bannerHTML = '<div class="banner lock">請先完成第 ' + i + ' 關，再來這裡</div>';
+      } else {
+        bannerHTML = '<div class="banner">' + (me ? '已完成 ' + doneItems + ' / ' + total + ' 步，全部勾選後解鎖下一關' : '請先登入，再開始勾選步驟') + '</div>';
+      }
+
+      const guideHTML = s.guide
+        ? '<img class="guide" src="' + escapeHtml(s.guide) + '" alt="' + escapeHtml(s.title) + ' 懶人圖解" loading="lazy" onerror="this.remove()">'
+        : '';
+
       det.innerHTML =
-        '<summary><span class="badge">' + (i + 1) + '</span>' +
+        '<summary><span class="pill">研習課程｜學習步驟 ' + (i + 1) + '</span>' +
         '<span class="stitle">' + escapeHtml(s.title) + '</span>' +
-        '<span class="sstate">' + (cleared ? '已通關' : (locked ? '未解鎖' : '進行中')) + '</span></summary>' +
+        '<span class="sstate">' + (cleared ? '已完成' : (locked ? '未解鎖' : doneItems + ' / ' + total + ' 步')) + '</span></summary>' +
         '<div class="sbody">' +
-        '<p class="goal">' + escapeHtml(s.goal) + '</p>' +
-        (locked ? '<p class="notice">請先完成前一關的闖關題，即可解鎖本關。</p>' : '') +
-        '<h3>操作步驟</h3><ol class="steps">' + stepsHTML + '</ol>' +
-        '<h3>闖關題（全部答對即通關）</h3>' +
-        '<div class="' + (locked || !me ? 'locked' : '') + '">' + qsHTML + '</div>' +
+        '<span class="chip">' + escapeHtml(s.summary) + '</span>' +
+        guideHTML +
+        '<div class="two">' +
+        '<div>' +
+        '<ol class="steplist" style="padding:0">' + itemsHTML + '</ol>' +
+        fillHTML +
+        '<div class="tip">' + escapeHtml(s.tip) + '</div>' +
+        videoHTML +
+        '</div>' +
+        '<div class="gallery">' + galleryHTML + '</div>' +
+        '</div>' +
+        bannerHTML +
         '</div>';
       wrap.appendChild(det);
     });
   }
 
-  // 點選答案：POST 給後端判斷
+  // 勾選步驟
   $('stages').addEventListener('click', async (ev) => {
-    const btn = ev.target.closest('.opt');
-    if (!btn || btn.disabled) return;
+    const btn = ev.target.closest('.check');
+    if (!btn || btn.disabled || busy) return;
     if (!me) { toast('請先登入', true); return; }
-    const qid = btn.getAttribute('data-qid');
-    const choice = Number(btn.getAttribute('data-k'));
-    const group = btn.closest('.opts');
-    group.querySelectorAll('.opt').forEach((b) => { b.disabled = true; });
+    const id = btn.getAttribute('data-id');
+    const next = !(me.answers && me.answers[id] === true);
+    await saveAnswer(id, next, next ? '已勾選' : '已取消勾選');
+  });
+
+  // 儲存課程號碼
+  $('stages').addEventListener('click', async (ev) => {
+    const btn = ev.target.closest('.fill-save');
+    if (!btn || btn.disabled || busy) return;
+    if (!me) { toast('請先登入', true); return; }
+    const id = btn.getAttribute('data-id');
+    const value = ($('f-' + id).value || '').trim();
+    await saveAnswer(id, value, '已儲存課程號碼');
+  });
+
+  async function saveAnswer(qid, value, okMsg) {
+    busy = true;
     try {
-      const res = await callGAS_POST({ action: 'answer', studentId: me.studentId, qid: qid, choice: choice });
+      const res = await callGAS_POST({ action: 'answer', studentId: me.studentId, qid: qid, value: value });
       me = res.student;
       try { localStorage.setItem(STORE_KEY, me.studentId); } catch (e) { /* 忽略 */ }
       refreshAll();
-      if (res.correct) toast('答對了！');
+      toast(okMsg);
     } catch (err) {
-      group.querySelectorAll('.opt').forEach((b) => { b.disabled = false; });
       showError(err.message);
+      renderStages();
+    } finally {
+      busy = false;
     }
-  });
+  }
 
-  /* ===== 進度與通關 ===== */
+  /* ===== 進度與完成 ===== */
   function refreshAll() {
     renderStages();
-    const card = $('progressCard');
     if (me) {
-      card.classList.remove('hidden');
+      $('progressCard').classList.remove('hidden');
       $('loginCard').classList.add('hidden');
       $('whoLine').textContent = me.school + '　' + me.name + '　' + me.loginDate;
       $('pText').textContent = me.clearedCount + ' / ' + me.totalStages + ' 關';
       $('pFill').style.width = Math.round(me.clearedCount / me.totalStages * 100) + '%';
       $('xpText').textContent = 'XP ' + me.xp;
     } else {
-      card.classList.add('hidden');
+      $('progressCard').classList.add('hidden');
       $('loginCard').classList.remove('hidden');
     }
-    const done = !!(me && me.isCompleted);
-    $('finishCard').classList.toggle('hidden', !done);
-    updateShare();
-  }
-
-  function updateShare() {
-    const code = ($('myCode').value || '').trim();
+    $('finishCard').classList.toggle('hidden', !(me && me.isCompleted));
+    const code = (me && me.answers && QUEST.length && me.answers[QUEST[QUEST.length - 1].fill ? QUEST[QUEST.length - 1].fill.id : '']) || '';
     $('shareText').textContent = code ? '我的因材網課程號碼：' + code + '（示範參考：1300703648）' : '';
   }
-  $('myCode').addEventListener('input', updateShare);
+
   $('copyMine').addEventListener('click', () => {
     const t = $('shareText').textContent;
-    if (!t) { toast('請先輸入你的課程號碼', true); return; }
+    if (!t) { toast('請先在第五關填寫課程號碼', true); return; }
     copyText(t, '已複製分享文字');
   });
   $('copyDemo').addEventListener('click', () => copyText('1300703648', '已複製示範號碼'));
@@ -605,7 +698,7 @@ footer { text-align: center; color: var(--muted); font-size: 13px; margin: 36px 
     teacherPass = $('teacherPass').value;
     if (!teacherPass) { toast('請輸入教師密碼', true); return; }
     const btn = $('teacherLoad');
-    btn.disabled = true; btn.innerHTML = loadingHTML('載入中');
+    btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>載入中';
     try {
       allStudents = await jsonp({ action: 'getStudents', pass: teacherPass });
       $('consoleBody').classList.remove('hidden');
@@ -662,7 +755,7 @@ footer { text-align: center; color: var(--muted); font-size: 13px; margin: 36px 
         '<th>學校</th><th>姓名</th><th>日期</th><th>進度</th><th>XP</th><th>最後更新</th><th></th></tr></thead><tbody>' +
         list.map((s) => '<tr><td>' + escapeHtml(s.school) + '</td><td>' + escapeHtml(s.name) + '</td><td>' + escapeHtml(s.loginDate) + '</td>' +
           '<td><div class="mini-bar"><span style="width:' + pct(s) + '%"></span></div>' +
-          escapeHtml(s.clearedCount + ' / ' + s.totalStages + ' 關') + (s.isCompleted ? '（通關）' : '') + '</td>' +
+          escapeHtml(s.clearedCount + ' / ' + s.totalStages + ' 關') + (s.isCompleted ? '（完成）' : '') + '</td>' +
           '<td class="xp">' + s.xp + '</td><td>' + escapeHtml(s.updatedAt) + '</td>' +
           '<td><button class="btn ghost small" type="button" data-detail="' + escapeHtml(s.studentId) + '">詳情</button></td></tr>').join('') +
         '</tbody></table></div>';
@@ -671,7 +764,7 @@ footer { text-align: center; color: var(--muted); font-size: 13px; margin: 36px 
         '<div class="item"><div class="head"><span>' + escapeHtml(s.school) + '　' + escapeHtml(s.name) + '</span>' +
         '<span class="xp">XP ' + s.xp + '</span></div>' +
         '<div class="track" style="margin-top:8px"><div class="fill" style="width:' + pct(s) + '%"></div></div>' +
-        '<div class="sstate" style="margin-top:6px">' + escapeHtml(s.loginDate) + ' ・ ' + escapeHtml(s.clearedCount + ' / ' + s.totalStages + ' 關') +
+        '<div class="muted" style="margin-top:6px">' + escapeHtml(s.loginDate) + ' ・ ' + escapeHtml(s.clearedCount + ' / ' + s.totalStages + ' 關') +
         ' ・ 最後更新 ' + escapeHtml(s.updatedAt) + '</div>' +
         '<div style="margin-top:8px"><button class="btn ghost small" type="button" data-detail="' + escapeHtml(s.studentId) + '">查看詳情</button></div></div>'
       ).join('') + '</div>';
@@ -687,7 +780,7 @@ footer { text-align: center; color: var(--muted); font-size: 13px; margin: 36px 
     }
   }
 
-  // 學員詳情（事件委派）
+  // 學員詳情
   $('viewBody').addEventListener('click', (ev) => {
     const b = ev.target.closest('[data-detail]');
     if (!b) return;
@@ -696,14 +789,17 @@ footer { text-align: center; color: var(--muted); font-size: 13px; margin: 36px 
     if (!s) return;
     $('dtTitle').textContent = s.school + '　' + s.name;
     $('dtBody').innerHTML =
-      '<p class="sstate">XP ' + s.xp + ' ・ 已通關 ' + s.clearedCount + ' / ' + s.totalStages + ' 關 ・ 最後更新 ' + escapeHtml(s.updatedAt) + '</p>' +
+      '<p class="muted">XP ' + s.xp + ' ・ 完成 ' + s.clearedCount + ' / ' + s.totalStages + ' 關 ・ 日期 ' + escapeHtml(s.loginDate) + ' ・ 最後更新 ' + escapeHtml(s.updatedAt) + '</p>' +
       QUEST.map((st) => {
-        const qs = st.qs.map((q, j) => {
-          const ok = !!(s.solved && s.solved[q.id]);
-          return '<li>' + (ok ? '✅ ' : (s.answers && s.answers[q.id] !== undefined ? '❌ ' : '⬜ ')) + escapeHtml(q.q) + '</li>';
+        const rows = st.items.map((it) => {
+          const ok = s.answers && s.answers[it.id] === true;
+          return '<li>' + (ok ? '✅ ' : '⬜ ') + escapeHtml(it.text) + '</li>';
         }).join('');
+        const fill = st.fill
+          ? '<li>' + (s.answers && s.answers[st.fill.id] ? '✅ ' + escapeHtml(st.fill.prompt) + escapeHtml(s.answers[st.fill.id]) : '⬜ ' + escapeHtml(st.fill.prompt) + '（未填）') + '</li>'
+          : '';
         return '<h3 style="font-size:16px;margin-top:14px">' + escapeHtml(st.title) +
-          (s.cleared.indexOf(st.id) >= 0 ? '（已通關）' : '') + '</h3><ul style="padding-left:1.2em">' + qs + '</ul>';
+          (s.cleared.indexOf(st.id) >= 0 ? '（已完成）' : '') + '</h3><ul style="padding-left:1.2em">' + rows + fill + '</ul>';
       }).join('');
     $('detailModal').classList.remove('hidden');
   });
@@ -712,7 +808,7 @@ footer { text-align: center; color: var(--muted); font-size: 13px; margin: 36px 
   $('versionBadge').addEventListener('click', () => {
     $('clList').innerHTML = CHANGELOG.map((c, i) =>
       '<div style="margin-bottom:14px"><strong>' + escapeHtml(c.version) + '</strong> ' +
-      '<span class="sstate">' + escapeHtml(c.date) + '</span>' + (i === 0 ? ' <span class="xp">最新</span>' : '') +
+      '<span class="muted">' + escapeHtml(c.date) + '</span>' + (i === 0 ? ' <span class="xp">最新</span>' : '') +
       '<p style="margin-top:4px">' + escapeHtml(c.desc) + '</p></div>'
     ).join('');
     $('changelogModal').classList.remove('hidden');
