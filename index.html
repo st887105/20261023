@@ -36,14 +36,14 @@ button { cursor: pointer; }
 .hidden { display: none !important; }
 
 /* 版頭 */
-.topbar { background: var(--dark); color: #fff; margin: 0 calc(-1 * max(16px, env(safe-area-inset-left, 0px))); padding: 14px max(16px, env(safe-area-inset-left, 0px)); display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.topbar { background: var(--dark); color: #fff; margin-top: 16px; border-radius: 12px; padding: 14px 18px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
 .topbar .title { font-family: var(--serif); font-size: 17px; font-weight: 700; min-width: 0; }
 .version-badge { background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.35); color: #fff; border-radius: 999px; padding: 4px 12px; font-size: 13px; }
 .version-badge:hover { background: rgba(255,255,255,.3); }
 .env-banner { background: var(--soft); color: var(--ink); border-radius: 8px; padding: 8px 12px; font-size: 13px; margin-top: 14px; }
 
 /* 錯誤橫幅（固定頂部，不用 alert） */
-.error-bar { position: sticky; top: 0; z-index: 20; background: var(--bad); color: #fff; padding: 10px 14px; border-radius: 0 0 10px 10px; font-size: 14px; margin: 0 -16px; }
+.error-bar { position: sticky; top: 0; z-index: 20; background: var(--bad); color: #fff; padding: 10px 14px; border-radius: 10px; font-size: 14px; margin-top: 12px; }
 
 .hero { padding: 28px 0 8px; }
 .kicker { color: var(--accent); font-weight: 700; font-size: 13px; letter-spacing: .08em; }
@@ -166,16 +166,16 @@ footer { text-align: center; color: var(--muted); font-size: 13px; margin: 36px 
 
 <header class="topbar">
   <div class="title">車城國小｜初任教師因材網闖關</div>
-  <button class="version-badge" id="versionBadge" type="button">v1.1</button>
+  <button class="version-badge" id="versionBadge" type="button">v1.3</button>
 </header>
 
-<div class="env-banner" id="envBanner">✅ 目前運行於 GitHub Pages 正式環境（v1.1）</div>
+<div class="env-banner" id="envBanner">✅ 目前運行於 GitHub Pages 正式環境（v1.3）</div>
 <div class="error-bar hidden" id="errorBar" role="alert"></div>
 
 <section class="hero">
   <div class="kicker">因材網 × 初任教師</div>
   <h1>四關闖完因材網，做出你的第一個課程包</h1>
-  <p class="lead">依序完成四關，每關三題闖關題，全部答對即通關。進度會記在伺服器上，換裝置登入同一個班級與姓名即可接續。</p>
+  <p class="lead">依序完成四關，每關三題闖關題，全部答對即通關。進度會記在伺服器上，換裝置登入同一個學校與姓名即可接續。</p>
 </section>
 
 <!-- 學員登入 -->
@@ -188,13 +188,17 @@ footer { text-align: center; color: var(--muted); font-size: 13px; margin: 36px 
         <input id="inName" maxlength="20" autocomplete="off" required>
       </div>
       <div class="field grow">
-        <label for="inClass">班級（例如：六年甲班）</label>
-        <input id="inClass" maxlength="10" autocomplete="off" required>
+        <label for="inSchool">學校（例如：車城國小）</label>
+        <input id="inSchool" maxlength="30" autocomplete="off" required>
+      </div>
+      <div class="field grow">
+        <label for="inDate">日期</label>
+        <input id="inDate" type="date" required>
       </div>
     </div>
     <div class="row" style="margin-top:14px">
       <button class="btn minbtn" id="loginBtn" type="submit">登入</button>
-      <span class="sstate" id="loginHint">同一姓名與班級會接續之前的進度。</span>
+      <span class="sstate" id="loginHint">同一姓名與學校會接續之前的進度。</span>
     </div>
   </form>
 </section>
@@ -300,10 +304,12 @@ footer { text-align: center; color: var(--muted); font-size: 13px; margin: 36px 
 
   /* ===== 設定 ===== */
   // 部署 GAS 後把新的 Web App URL 貼在這裡（每次重新部署都要更新）
-  const DEFAULT_GAS_URL = 'PASTE_GAS_WEB_APP_URL_HERE';
-  const APP_VERSION = 'v1.1';
+  const DEFAULT_GAS_URL = 'https://script.google.com/macros/s/AKfycbyMNBAdEQ6BWUHWj4C9pGV2mDmPz3F6Ge-w8mzV_7Wzwk1XjEhu4uVny5rVHJC7Ier1/exec';
+  const APP_VERSION = 'v1.3';
   const SYSTEM_NAME = '車城國小｜初任教師因材網闖關';
   const CHANGELOG = [
+    { version: 'v1.3', date: '2026-10-24', desc: '登入新增「日期」欄位（預設今天，可修改），教師主控台可依日期篩選並顯示日期。' },
+    { version: 'v1.2', date: '2026-10-24', desc: '登入改為「姓名＋學校」；修正版頭與錯誤橫幅造成的橫向捲動；前端已連結正式 GAS 網址。' },
     { version: 'v1.1', date: '2026-10-24', desc: '依學校命名規則重製：GAS 專案、雲端硬碟資料夾、試算表與網站標題統一為「車城國小｜初任教師因材網闖關」；setupDatabase() 自動建立資料夾並移入試算表。' },
     { version: 'v1.0', date: '2026-10-24', desc: '初版：四關闖關（建立課程包、新增資源、指派任務、學生執行與看數據），題目與 XP 由後端計算，附教師主控台（表格／清單／圖卡）。' }
   ];
@@ -412,9 +418,16 @@ footer { text-align: center; color: var(--muted); font-size: 13px; margin: 36px 
   }
 
   /* ===== 初始化 ===== */
+  function todayStr() {
+    const d = new Date();
+    const z = (n) => String(n).padStart(2, '0');
+    return d.getFullYear() + '-' + z(d.getMonth() + 1) + '-' + z(d.getDate());
+  }
+
   async function init() {
     document.title = SYSTEM_NAME;
     $('versionBadge').textContent = APP_VERSION;
+    $('inDate').value = todayStr();
     $('envBanner').textContent = '✅ 目前運行於 GitHub Pages 正式環境（' + APP_VERSION + '）';
     $('demoCode').textContent = '1300703648';
 
@@ -452,12 +465,14 @@ footer { text-align: center; color: var(--muted); font-size: 13px; margin: 36px 
   $('loginForm').addEventListener('submit', async (ev) => {
     ev.preventDefault();
     const name = $('inName').value.trim();
-    const cls = $('inClass').value.trim();
-    if (!name || !cls) { toast('請輸入姓名與班級', true); return; }
+    const cls = $('inSchool').value.trim();
+    const day = $('inDate').value;
+    if (!name || !cls) { toast('請輸入姓名與學校', true); return; }
+    if (!day) { toast('請選擇日期', true); return; }
     const btn = $('loginBtn');
     btn.disabled = true; btn.innerHTML = loadingHTML('登入中');
     try {
-      me = await callGAS_POST({ action: 'login', name: name, classNo: cls });
+      me = await callGAS_POST({ action: 'login', name: name, school: cls, loginDate: day });
       try { localStorage.setItem(STORE_KEY, me.studentId); } catch (e) { /* 無法記住也不影響使用 */ }
       toast('歡迎，' + me.name + '！');
       refreshAll();
@@ -557,7 +572,7 @@ footer { text-align: center; color: var(--muted); font-size: 13px; margin: 36px 
     if (me) {
       card.classList.remove('hidden');
       $('loginCard').classList.add('hidden');
-      $('whoLine').textContent = me.classNo + '　' + me.name;
+      $('whoLine').textContent = me.school + '　' + me.name + '　' + me.loginDate;
       $('pText').textContent = me.clearedCount + ' / ' + me.totalStages + ' 關';
       $('pFill').style.width = Math.round(me.clearedCount / me.totalStages * 100) + '%';
       $('xpText').textContent = 'XP ' + me.xp;
@@ -606,7 +621,7 @@ footer { text-align: center; color: var(--muted); font-size: 13px; margin: 36px 
   function buildDateFilter() {
     const sel = $('dateFilter');
     const prev = sel.value;
-    const dates = Array.from(new Set(allStudents.map((s) => s.createdDate).filter(Boolean))).sort().reverse();
+    const dates = Array.from(new Set(allStudents.map((s) => s.loginDate).filter(Boolean))).sort().reverse();
     sel.innerHTML = '<option value="">全部日期</option>' +
       dates.map((d) => '<option value="' + escapeHtml(d) + '">' + escapeHtml(d) + '</option>').join('');
     if (prev && dates.indexOf(prev) >= 0) sel.value = prev;
@@ -624,7 +639,7 @@ footer { text-align: center; color: var(--muted); font-size: 13px; margin: 36px 
   function filteredStudents() {
     const d = $('dateFilter').value;
     return allStudents
-      .filter((s) => !d || s.createdDate === d)
+      .filter((s) => !d || s.loginDate === d)
       .sort((a, b) => (b.xp - a.xp) || (b.clearedCount - a.clearedCount));
   }
 
@@ -644,8 +659,8 @@ footer { text-align: center; color: var(--muted); font-size: 13px; margin: 36px 
     const pct = (s) => Math.round(s.clearedCount / s.totalStages * 100);
     if (teacherView === 'table') {
       body.innerHTML = '<div class="table-wrap"><table><thead><tr>' +
-        '<th>班級</th><th>姓名</th><th>進度</th><th>XP</th><th>最後更新</th><th></th></tr></thead><tbody>' +
-        list.map((s) => '<tr><td>' + escapeHtml(s.classNo) + '</td><td>' + escapeHtml(s.name) + '</td>' +
+        '<th>學校</th><th>姓名</th><th>日期</th><th>進度</th><th>XP</th><th>最後更新</th><th></th></tr></thead><tbody>' +
+        list.map((s) => '<tr><td>' + escapeHtml(s.school) + '</td><td>' + escapeHtml(s.name) + '</td><td>' + escapeHtml(s.loginDate) + '</td>' +
           '<td><div class="mini-bar"><span style="width:' + pct(s) + '%"></span></div>' +
           escapeHtml(s.clearedCount + ' / ' + s.totalStages + ' 關') + (s.isCompleted ? '（通關）' : '') + '</td>' +
           '<td class="xp">' + s.xp + '</td><td>' + escapeHtml(s.updatedAt) + '</td>' +
@@ -653,17 +668,17 @@ footer { text-align: center; color: var(--muted); font-size: 13px; margin: 36px 
         '</tbody></table></div>';
     } else if (teacherView === 'list') {
       body.innerHTML = '<div class="list">' + list.map((s) =>
-        '<div class="item"><div class="head"><span>' + escapeHtml(s.classNo) + '　' + escapeHtml(s.name) + '</span>' +
+        '<div class="item"><div class="head"><span>' + escapeHtml(s.school) + '　' + escapeHtml(s.name) + '</span>' +
         '<span class="xp">XP ' + s.xp + '</span></div>' +
         '<div class="track" style="margin-top:8px"><div class="fill" style="width:' + pct(s) + '%"></div></div>' +
-        '<div class="sstate" style="margin-top:6px">' + escapeHtml(s.clearedCount + ' / ' + s.totalStages + ' 關') +
+        '<div class="sstate" style="margin-top:6px">' + escapeHtml(s.loginDate) + ' ・ ' + escapeHtml(s.clearedCount + ' / ' + s.totalStages + ' 關') +
         ' ・ 最後更新 ' + escapeHtml(s.updatedAt) + '</div>' +
         '<div style="margin-top:8px"><button class="btn ghost small" type="button" data-detail="' + escapeHtml(s.studentId) + '">查看詳情</button></div></div>'
       ).join('') + '</div>';
     } else {
       body.innerHTML = '<div class="grid">' + list.map((s) =>
         '<div class="gcard"><div class="nm">' + escapeHtml(s.name) + '</div>' +
-        '<div class="sub">' + escapeHtml(s.classNo) + ' ・ <span class="xp">XP ' + s.xp + '</span></div>' +
+        '<div class="sub">' + escapeHtml(s.school) + ' ・ ' + escapeHtml(s.loginDate) + ' ・ <span class="xp">XP ' + s.xp + '</span></div>' +
         '<div class="dots">' + QUEST.map((st, i) =>
           '<span class="dot' + (s.cleared.indexOf(st.id) >= 0 ? ' on' : '') + '" title="' + escapeHtml(st.title) + '">' + (i + 1) + '</span>'
         ).join('') + '</div>' +
@@ -679,7 +694,7 @@ footer { text-align: center; color: var(--muted); font-size: 13px; margin: 36px 
     const id = b.getAttribute('data-detail');
     const s = allStudents.find((x) => x.studentId === id);
     if (!s) return;
-    $('dtTitle').textContent = s.classNo + '　' + s.name;
+    $('dtTitle').textContent = s.school + '　' + s.name;
     $('dtBody').innerHTML =
       '<p class="sstate">XP ' + s.xp + ' ・ 已通關 ' + s.clearedCount + ' / ' + s.totalStages + ' 關 ・ 最後更新 ' + escapeHtml(s.updatedAt) + '</p>' +
       QUEST.map((st) => {
